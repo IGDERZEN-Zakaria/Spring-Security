@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c9245a3-a5e0-4105-921b-85f045aa3d79" name="Changes" comment="Initial Commit">
-      <change afterPath="$PROJECT_DIR$/images/student.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/student_api.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zack/student/Student.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zack/student/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="2c9245a3-a5e0-4105-921b-85f045aa3d79" name="Changes" comment="Adding StudentEndPoint">
+      <change afterPath="$PROJECT_DIR$/images/springinit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/springinitpass.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,13 +54,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Maven.SpringSecurity [clean].executor": "Run",
+    "Maven.SpringSecurity [install].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.SpringSecurityApplication.executor": "Run",
-    "git-widget-placeholder": "1-Starting",
+    "git-widget-placeholder": "2-Setting-Spring-Security",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Zack/Documents/Spring WorkSpace/SpringSecurity",
     "node.js.detected.package.eslint": "true",
@@ -70,6 +70,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -110,6 +111,7 @@
       <option name="presentableId" value="Default" />
       <updated>1724943624994</updated>
       <workItem from="1724943629822" duration="1338000" />
+      <workItem from="1724945533529" duration="982000" />
     </task>
     <servers />
   </component>
