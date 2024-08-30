@@ -106,9 +106,52 @@ specify the username and the password
 
 ![index.png](images%2Findex.png)
 
+## Users,Role & Authorities
 
+![userRole.png](images%2FuserRole.png)
 
+### Creating In Memory Users
 
+we use the interface `UserDetailsService` inside the ApplicationSecurityConfig Class to create 3 
+in memory users to which we assign a different role for each 
+
+![encodePass.png](images%2FencodePass.png)
+
+### Result 
+
+when login with these credentials we get 
+
+![PassEncode2.png](images%2FPassEncode2.png)
+
+We need to define a password encoder , by implementing `PasswordEncoder` interface and adding 
+an encoder in our case we choose `BCryptPasswordEncoder` 
+
+### Result
+
+![PassEncode3.png](images%2FPassEncode3.png)
+
+We have to  add the `PasswordEncoder` By injecting it to the ApplicationSecurityConfig to be able to use it
+
+### Roles Definition 
+
+<img src="images/PassEncode4.png" width="540" height="300"></img>
+
+<img src="images/PassEncode5.png" width="300" height="300"></img>
+
+trying to separate Api for each role 
+
+```
+// By adding this to Security Config we enforce only users with role STUDENT to access the route "/api/**"
+
+.antMatchers("/api/**").hasRole(STUDENT.name())
+
+```
+
+### Result
+
+trying to access the route with Linda that has the Role ADMIN
+
+![PassEncode6.png](images%2FPassEncode6.png)
 
 
 

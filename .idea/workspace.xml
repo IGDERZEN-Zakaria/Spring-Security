@@ -4,19 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c9245a3-a5e0-4105-921b-85f045aa3d79" name="Changes" comment="Adding Spring Security Dependency">
-      <change afterPath="$PROJECT_DIR$/images/basicAuth.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/basicAuthLog.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/basicAuthPostman.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/basicauthdecode.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/index.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/packagebasic.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/springinitinspect.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/springinitlogout.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
+    <list default="true" id="2c9245a3-a5e0-4105-921b-85f045aa3d79" name="Changes" comment="Adding Basic Auth &amp; AntMatchers">
+      <change afterPath="$PROJECT_DIR$/images/PassEncode2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/PassEncode3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/PassEncode4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/PassEncode5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/encodePass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/userRole.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationUserPermission.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationUserRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/security/PasswordConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +28,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -62,29 +65,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.SpringSecurity [clean].executor": "Run",
-    "Maven.SpringSecurity [install].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "Spring Boot.SpringSecurityApplication.executor": "Run",
-    "git-widget-placeholder": "2-Setting-Spring-Security",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Zack/Documents/Spring WorkSpace/SpringSecurity",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.SpringSecurity [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SpringSecurity [install].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;Spring Boot.SpringSecurityApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;3-Users-Roles-and-Authorities&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zack/Documents/Spring WorkSpace/Portail_IPA&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="SpringSecurityApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="SpringSecurity" />
@@ -101,6 +104,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.SpringSecurityApplication" />
         <item itemvalue="Spring Boot.SpringSecurityApplication" />
       </list>
     </recent_temporary>
@@ -123,6 +127,9 @@
       <updated>1724943624994</updated>
       <workItem from="1724943629822" duration="1338000" />
       <workItem from="1724945533529" duration="7573000" />
+      <workItem from="1725016268952" duration="2295000" />
+      <workItem from="1725042970135" duration="3363000" />
+      <workItem from="1725049598187" duration="4233000" />
     </task>
     <task id="LOCAL-00001" summary="Adding Spring Security Dependency">
       <option name="closed" value="true" />
