@@ -52,7 +52,7 @@ UserName : user
 
 Passowrd : c462e42e-8eb4-4ee1-a41e-5a6b03331850
 
-****Result****
+****Result (200 Sucess :+1: )****
 
 ![student_api.png](images%2Fstudent_api.png)
 
@@ -147,18 +147,127 @@ trying to separate Api for each role
 
 ```
 
-### Result
+### Result (403 :-1: )
 
 trying to access the route with Linda that has the Role ADMIN
 
 ![PassEncode6.png](images%2FPassEncode6.png)
 
+## Permission Based Authentication
+
+We Implement the StudentManagementController by adding the methods of REST API : 
+
+**(GET / POST / PUT / DELETE)**
+
+![Permiss.png](images%2FPermiss.png)
+
+When we try to **POST / PUT / DELETE** Spring Security will automatically protect our App
+
+To resolve this we need to **disable CSRF** `(Cross-site request forgery)` in the security Config
+
+```
+http.csrf().disable()
+```
+
+### Result (200 Sucess :+1: )
+
+![Permiss2.png](images%2FPermiss2.png)
+
+![Permiss3.png](images%2FPermiss3.png)
 
 
+### To Implement Permission based authentication there are 2 ways :
+
+- Using AntMatchers in Application Security Config
+- Using Annotations in the methods 
 
 
+### 1- Using AntMatchers in Application Security Config
+
+if we go deep into User Class we will find 
+
+![Permiss4.png](images%2FPermiss4.png)
+
+We will find that thr roles are GrantedAuthorities preceeded only with "ROLE_"
+and that is the only difference with Permissions 
+
+If we go deep inside UserDetails interface, we will find that it uses only GrantedAuthorities
+
+![Permiss5.png](images%2FPermiss5.png)
+
+### Conclusion
+
+If We want to define roles based on GrantedAuthorities we have to do it by ourselves 
+inside the Role Enum as bello 
+
+```
+public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
+    Set<SimpleGrantedAuthority> permissions  = getPermissions().stream()
+                                               .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                                               .collect(Collectors.toSet());
+    permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+    return permissions;
+}
+```
+
+After changing the Application Sercurity Config 
+
+![Permiss6.png](images%2FPermiss6.png)
 
 
+### Result 
+
+- annasmith can only access [localhost:8080/api/v1/students/{StudentId}]()
+- tom can only acess GET [localhost:8080/management/api/v1/students]()
+- linda can do everything in [localhost:8080/management/api/v1/students]()
+
+### Important:
+
+**AntMatchers order is crucial and can influence the application ,
+Rememeber to always structure your antMatchers from Specific cases before the more generic cases**
+
+
+### 2- Using Annotations on method level
+
+We comment the antMatchers Part 
+
+![Permiss7.png](images%2FPermiss7.png)
+
+and instead we use 
+
+![Permiss8.png](images%2FPermiss8.png)
+
+#### Example 1:
+
+```
+@GetMapping
+@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMINTRAINEE')")
+public List<Student> getAllStudents() {
+    System.out.println("getAllStudents");
+    return STUDENTS;
+}
+```
+
+#### Example 2:
+
+```
+@PostMapping
+@PreAuthorize("hasAuthority('student:write')")
+public void registerNewStudent(@RequestBody Student student) {
+    System.out.println("registerNewStudent");
+    System.out.println(student);
+}
+```
+
+**We also have to add this annotation on the `ApplicationSecurityConfig` or the`StudentManagementController`
+( preferably `ApplicationSecurityConfig`) to inform our configuration that we are using @PreAuthorize
+for permission or role based authentication**
+
+```
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+```
+
+### Result (Success :+1:)
 
 
 
