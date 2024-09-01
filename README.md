@@ -31,7 +31,7 @@ We Add Student RestController and model inside Student Package to the project
 
 ### Adding Spring Security dependency to the pom.xml file
 
-```
+```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-security</artifactId>
@@ -140,7 +140,7 @@ We have to  add the `PasswordEncoder` By injecting it to the ApplicationSecurity
 
 trying to separate Api for each role 
 
-```
+```java
 // By adding this to Security Config we enforce only users with role STUDENT to access the route "/api/**"
 
 .antMatchers("/api/**").hasRole(STUDENT.name())
@@ -165,7 +165,7 @@ When we try to **POST / PUT / DELETE** Spring Security will automatically protec
 
 To resolve this we need to **disable CSRF** `(Cross-site request forgery)` in the security Config
 
-```
+```java
 http.csrf().disable()
 ```
 
@@ -198,9 +198,9 @@ If we go deep inside UserDetails interface, we will find that it uses only Grant
 ### Conclusion
 
 If We want to define roles based on GrantedAuthorities we have to do it by ourselves 
-inside the Role Enum as bello 
+inside the Role Enum as bellow 
 
-```
+```java
 public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
     Set<SimpleGrantedAuthority> permissions  = getPermissions().stream()
                                                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
@@ -239,7 +239,7 @@ and instead we use
 
 #### Example 1:
 
-```
+```java
 @GetMapping
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMINTRAINEE')")
 public List<Student> getAllStudents() {
@@ -250,7 +250,7 @@ public List<Student> getAllStudents() {
 
 #### Example 2:
 
-```
+```java
 @PostMapping
 @PreAuthorize("hasAuthority('student:write')")
 public void registerNewStudent(@RequestBody Student student) {
@@ -263,11 +263,75 @@ public void registerNewStudent(@RequestBody Student student) {
 ( preferably `ApplicationSecurityConfig`) to inform our configuration that we are using @PreAuthorize
 for permission or role based authentication**
 
-```
+```java
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 ```
 
 ### Result (Success :+1:)
+
+## Cross Site Request Forgery
+
+![csrf.png](images%2Fcsrf.png)
+
+Spring Security by default activate the csrf protection as bellow
+
+![csrf2.png](images%2Fcsrf2.png)
+
+### When to use CSRF Protection :
+
+CSRF Protection should be used for any request that could be processed by a browser
+by normal users ,Although if we are creating a service that is used by non-browser 
+clients, we would likely disable the CSRF Protection
+
+
+- CSRF protection is enabled by default in Spring Security. However, if you have explicitly 
+disabled it, or it's not correctly configured, the token will not be generated.
+
+- Use CookieCsrfTokenRepository.withHttpOnlyFalse() to ensure that the CSRF token is stored in 
+a cookie that can be accessed by the client-side.
+
+- we get the **XSRF-TOKEN** in a `GET` to be used in `POST` / `PUT` / `DELETE` 
+
+
+```java
+// Enable the CSRF token to be set as a cookie
+ http   
+     .csrf()
+     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+     .and()
+     .authorizeRequests()
+```
+
+#### Result (without XSRF-TOKEN :-1: ) 
+
+![csrf4.png](images%2Fcsrf4.png)
+
+#### Result (with XSRF-TOKEN :1+: ) 
+
+if we use the **XSRF-TOKEN** in the header of our request 
+
+![csrf5.png](images%2Fcsrf5.png)
+
+### withHttpOnlyFalse() method
+
+```java
+//means that the coookie will be inaccessible to the client side scripts 
+// (ex: javascript)
+
+public static CookieCsrfTokenRepository withHttpOnlyFalse() {
+    CookieCsrfTokenRepository result = new CookieCsrfTokenRepository();
+    result.setCookieHttpOnly(false);
+    return result;
+}
+```
+
+Emphasize on `CookieCsrfTokenRepository` and `CsrfFilter`
+
+**We will be working with services with Postman , which requires us to disable the CSRF**
+
+
+
+
 
 
 
