@@ -2,7 +2,7 @@
 
 ##  Prerequisites
 
-In order to work with Spring Security Tutorial
+To work with Spring Security Tutorial
 
 - JDK 11.0.24
 - Maven 3.8.8
@@ -50,7 +50,7 @@ We Add Student RestController and model inside Student Package to the project
 
 UserName : user 
 
-Passowrd : c462e42e-8eb4-4ee1-a41e-5a6b03331850
+Password : c462e42e-8eb4-4ee1-a41e-5a6b03331850
 
 ****Result (200 Sucess :+1: )****
 
@@ -66,7 +66,7 @@ Passowrd : c462e42e-8eb4-4ee1-a41e-5a6b03331850
 
 ![springinitinspect.png](images%2Fspringinitinspect.png)
 
-this is an example of form based authentication
+this is an example of form-based authentication
 
 
 ### Basic Auth
@@ -101,7 +101,7 @@ user:df088746-2018-40cb-a5cf-66273a1335e2
 
 we use ant matchers to white-list some uri with security
 
-by adding index.html inside static folder and whitelisting the route of index we don't need to
+by adding index.html inside static folder and whitelisting the route of index, we don't need to
 specify the username and the password
 
 ![index.png](images%2Findex.png)
@@ -188,7 +188,7 @@ if we go deep into User Class we will find
 
 ![Permiss4.png](images%2FPermiss4.png)
 
-We will find that thr roles are GrantedAuthorities preceeded only with "ROLE_"
+We will find that thr roles are GrantedAuthorities preceded only with "ROLE_"
 and that is the only difference with Permissions 
 
 If we go deep inside UserDetails interface, we will find that it uses only GrantedAuthorities
@@ -273,14 +273,14 @@ for permission or role based authentication**
 
 ![csrf.png](images%2Fcsrf.png)
 
-Spring Security by default activate the csrf protection as bellow
+Spring Security by default activates the csrf protection as bellow
 
 ![csrf2.png](images%2Fcsrf2.png)
 
 ### When to use CSRF Protection :
 
 CSRF Protection should be used for any request that could be processed by a browser
-by normal users ,Although if we are creating a service that is used by non-browser 
+by normal users, Although if we are creating a service used by non-browser 
 clients, we would likely disable the CSRF Protection
 
 
@@ -328,6 +328,215 @@ public static CookieCsrfTokenRepository withHttpOnlyFalse() {
 Emphasize on `CookieCsrfTokenRepository` and `CsrfFilter`
 
 **We will be working with services with Postman , which requires us to disable the CSRF**
+
+## Form Based Authentication
+
+### Comparison between Basic Auth and Form Auth
+
+![form.png](images%2Fform.png)
+
+![form2.png](images%2Fform2.png)
+
+### Enabling Form-Based Authentication
+
+we change the `BasicAuth()` method with the `Formlogin()`in the Security Config
+
+```java
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/api/**").hasRole(STUDENT.name())
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin();
+    }
+```
+
+#### Result
+
+![form3.png](images%2Fform3.png)
+
+#### Result After Login we get JSESSIONID inside the cookie
+
+
+
+![form4.png](images%2Fform4.png) 
+
+- The Default time of this session is about 30min
+
+- By default, Spring Security uses 
+  - In Memory DataBase to store the SESSION ID
+  - We can also use other sources like PostgeSQL or Redis
+
+
+### Custom Login Page
+
+We Add the `loginPage("/login")` in the Security Config 
+
+```java
+http.
+.
+.
+.
+
+.and()
+.formLogin()
+.loginPage("/login");
+```
+
+We also add Thymeleaf dependency in the pom.xml file 
+
+`Thymeleaf is a templating engine to handle html files`
+
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+```
+
+<u>**Always Remember to reload and clean-build you Project**</u>
+
+We add the login.html file inside template folder and create a custom login page
+
+We add the **TemplateController** class inside **controller** Package ,
+and add routes for **login** and **courses**
+
+We Permit all to be able to access the loginPage
+
+```java
+.formLogin()
+.loginPage("/login").permitAll();
+```
+
+![form5.png](images%2Fform5.png)
+
+
+### Redirect After Success Login
+
+- We add the `courses.html` Web Page to the template folder 
+
+We update the redirect after successful login to the course page 
+
+```java
+.formLogin()
+.loginPage("/login").permitAll()
+.defaultSuccessUrl("/courses", true);
+```
+
+#### Result ( Success :+1:)
+
+![form6.png](images%2Fform6.png)
+
+### Remember Me 
+
+- By default, the SESSION_ID will expire after 30min of inactivity
+
+- Spring offers to extend this duration with the <u>`Remember Me`</u>
+
+- Default duration of `Remember Me` is **2 weeks**
+
+We add the Remember Me to the security Config
+
+```java
+.formLogin()
+.loginPage("/login").permitAll()
+.defaultSuccessUrl("/courses", true)
+.and()
+.rememberMe();
+```
+
+- We also add the Remember Me checkbox to the login.html Page 
+
+- add `name=remember-me` inside the html checkbox element
+
+#### Result ( Success :+1: )
+
+![form7.png](images%2Fform7.png)
+
+
+### Remember Me Cookie and Extra Options
+
+![form8.png](images%2Fform8.png)
+
+- **Notice that we have two cookies now (`JSESSIONID` & `remember-me`)**
+
+- `remember-me` expires 2 weeks after the date 06-09-2024 (by default)
+
+
+**Remember-me cookie contains these informations :**
+
+- username
+
+- expiration time
+
+- md5 hash of the (username & expiration time )
+
+
+In this we will parameter the lifespan of the remember me cookie to expire after 21 day,
+we are also parameterizing the key in which md5 hash is generated
+
+
+we add the rememberMe parameters to the security config
+
+```java
+.and()
+.rememberMe()
+  //.tokenRepository();example
+    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21))
+    .key("something-very-secured");
+```
+
+### Logout
+
+we add the logout method to the security config with other parameters
+
+```java
+.and()
+.logout()
+    .logoutUrl("/logout")
+    .clearAuthentication(true)
+    .invalidateHttpSession(true)
+    .deleteCookies("JSESSIONID", "remember-me")
+    .logoutSuccessUrl("/login");
+```
+
+**when we log out from the application we notice that JSESSIONID & remember-me cookies 
+are deleted, and we are redirected to login page**
+
+![form9.png](images%2Fform9.png)
+
+```java
+.and()
+.logout()
+    .logoutUrl("/logout")
+    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+    .clearAuthentication(true)
+    .invalidateHttpSession(true)
+    .deleteCookies("JSESSIONID", "remember-me")
+    .logoutSuccessUrl("/login");
+```
+
+**We Add the logout button in the courses html page**
+
+```html
+<div class="container">
+    <p>Spring Boot Security</p>
+    <form class="form-signin" method="get" action="/logout">
+        <button class="btn btn-primary btn-block" type="submit">Logout</button>
+    </form>
+</div>
+```
+
+sq
+
+
+
 
 
 

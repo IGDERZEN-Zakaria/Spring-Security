@@ -5,13 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c9245a3-a5e0-4105-921b-85f045aa3d79" name="Changes" comment="Adding (Permissin / Role based) authetication using Antatchers or Annocations">
-      <change afterPath="$PROJECT_DIR$/images/csrf.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/csrf2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/csrf3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/csrf4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/csrf5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/form9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/controller/TemplateController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/courses.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +64,6 @@
   </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
-    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
@@ -70,7 +77,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
     &quot;Spring Boot.SpringSecurityApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;5-Cross-Site-Request-Forgery&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;6-Form-Based-Authentication&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Zack/Documents/Spring WorkSpace/beyn/back-office/bna-backoffice-source-code/bna-backoffice/backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -82,6 +89,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Zack\Documents\Spring WorkSpace\SpringSecurity\src\main\resources\templates" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="SpringSecurityApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="SpringSecurity" />
@@ -135,6 +147,11 @@
       <workItem from="1725125038630" duration="8410000" />
       <workItem from="1725193793031" duration="8246000" />
       <workItem from="1725218438224" duration="2947000" />
+      <workItem from="1725455099455" duration="647000" />
+      <workItem from="1725456966161" duration="2286000" />
+      <workItem from="1725567847779" duration="82000" />
+      <workItem from="1725567943552" duration="7147000" />
+      <workItem from="1725646650938" duration="5646000" />
     </task>
     <task id="LOCAL-00001" summary="Adding Spring Security Dependency">
       <option name="closed" value="true" />
