@@ -533,7 +533,128 @@ are deleted, and we are redirected to login page**
 </div>
 ```
 
-sq
+## DataBase Authentication
+
+### Architecture
+
+![db2.png](images%2Fdb2.png)
+
+
+
+Explore `UserDetailsService` Interface  & `JdbcDaoImpl` Implementation of it
+
+### ApplicationUser Model
+
+- Explore `UserDetails` Interface
+
+- Creating the auth Package
+
+- Creating the `ApplicationUser` class by implementing `UserDetails`
+
+
+### ApplicationUserService
+
+- Creating the `ApplicationUserService` class annotated with `@Service` and implementing `UserDetailsService`
+
+### ApplicationUserDao 
+
+- Creating the `ApplicationUserDao` Interface
+
+- Adding `selectApplicationUserByUsername` method to it
+
+### FakeApplicationUserDaoService
+
+- Creating the `FakeApplicationUserDaoService` Class annotated with `@Repository` and implementing `ApplicationUserDao`
+
+- implementing the `selectApplicationUserByUsername` method
+
+- creating `getApplicationUsers()`  to create fixture users
+
+
+### DaoAuthenticationProvider
+
+- We replace `userDetailsService()` method inside the security config **[(In Memory users List)]()** with
+  `getApplicationUsers()` **[(DataBase Users List)]()** method from `FakeApplicationUserDaoService` class 
+
+
+```java
+
+// here we are configuring the autheticationManager by setting the AuthenticationProvider that we just implemented
+@Override
+protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.authenticationProvider(daoAuthenticationProvider());
+}
+
+@Bean
+public DaoAuthenticationProvider daoAuthenticationProvider() {
+    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    //this line allows passwords to be decoded 
+    provider.setPasswordEncoder(passwordEncoder);
+    // we set the userDetailsService parameter with ApplicationUserService that we created
+    provider.setUserDetailsService(applicationUserService);
+    return provider;
+}
+```
+
+`configure(AuthenticationManagerBuilder auth)`
+
+- This is a method used to configure the `AuthenticationManagerBuilder`, which is responsible for 
+setting up the authentication mechanism for our application
+
+`auth.authenticationProvider(daoAuthenticationProvider())`
+
+- This line sets the authentication provider for the application. The authentication provider is what 
+  handles the logic of verifying the credentials (like username and password) provided by the user.
+
+  
+### Conclusion
+
+- The configure method sets up Spring Security to use a `DaoAuthenticationProvider` for authentication.
+- The `DaoAuthenticationProvider` uses a `passwordEncoder` to verify passwords and a `UserDetailsService` 
+  (`applicationUserService`) to load user details from a data source (typically a database).
+- This setup ensures that when a user logs in, Spring Security will check the provided credentials against
+  stored data using the `DaoAuthenticationProvider`, which securely handles password encoding and validation.
+
+#### Result (Login Successful with the new Security Config :+1:)
+
+![db1.png](images%2Fdb1.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

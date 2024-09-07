@@ -5,21 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c9245a3-a5e0-4105-921b-85f045aa3d79" name="Changes" comment="Adding (Permissin / Role based) authetication using Antatchers or Annocations">
-      <change afterPath="$PROJECT_DIR$/images/form.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/form2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/form3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/form4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/form5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/form6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/form7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/form8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/form9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zack/controller/TemplateController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/courses.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/db1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/db2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/auth/ApplicationUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/auth/ApplicationUserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/auth/ApplicationUserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/auth/FakeApplicationUserDaoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +24,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -66,29 +60,29 @@
     <option name="autoscrollFromSource" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.SpringSecurity [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.SpringSecurity [install].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;Spring Boot.SpringSecurityApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;6-Form-Based-Authentication&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zack/Documents/Spring WorkSpace/beyn/back-office/bna-backoffice-source-code/bna-backoffice/backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.SpringSecurity [clean].executor": "Run",
+    "Maven.SpringSecurity [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "Spring Boot.SpringSecurityApplication.executor": "Run",
+    "git-widget-placeholder": "7-Database-Authentication",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Zack/Documents/Spring WorkSpace/beyn/back-office/bna-backoffice-source-code/bna-backoffice/backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Zack\Documents\Spring WorkSpace\SpringSecurity\src\main\resources\templates" />
@@ -110,6 +104,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.SpringSecurityApplication" />
         <item itemvalue="Spring Boot.SpringSecurityApplication" />
         <item itemvalue="Spring Boot.SpringSecurityApplication" />
         <item itemvalue="Spring Boot.SpringSecurityApplication" />
@@ -152,6 +147,7 @@
       <workItem from="1725567847779" duration="82000" />
       <workItem from="1725567943552" duration="7147000" />
       <workItem from="1725646650938" duration="5646000" />
+      <workItem from="1725711521161" duration="10939000" />
     </task>
     <task id="LOCAL-00001" summary="Adding Spring Security Dependency">
       <option name="closed" value="true" />

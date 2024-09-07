@@ -3,9 +3,14 @@ package zack.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import zack.auth.ApplicationUserService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,11 +29,13 @@ import static zack.security.ApplicationUserRole.*;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationUserService applicationUserService;
 
     //Injecting the PasswordEncoder dependency to the ApplicationSecurityConfig
     @Autowired
-    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder) {
+    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
         this.passwordEncoder = passwordEncoder;
+        this.applicationUserService = applicationUserService;
     }
 
     @Override
@@ -64,43 +72,21 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-
+    // here we are configuring the autheticationManager by setting the AuthenticationProvider that we just implemented
     @Override
-    @Bean
-    protected UserDetailsService userDetailsService() {
-
-        // Creating In Memory users
-        UserDetails annaSmithUser = User.builder()
-                .username("annasmith")
-                .password(passwordEncoder.encode("password123"))
-                //.roles(STUDENT.name())  // ROLE_STUDENT
-                .authorities(STUDENT.getGrantedAuthorities())
-                .build();
-
-        UserDetails lindaUser = User.builder()
-                .username("linda")
-                .password(passwordEncoder.encode("password123"))
-                //.roles(ADMIN.name()) // ROLE_ADMIN
-                .authorities(ADMIN.getGrantedAuthorities())
-                .build();
-
-        UserDetails tomUser = User.builder()
-                .username("tom")
-                .password(passwordEncoder.encode("password123"))
-                //.roles(ADMINTRAINEE.name()) // ROLE_ADMINTRAINEE
-                .authorities(ADMINTRAINEE.getGrantedAuthorities())
-                .build();
-
-        return new InMemoryUserDetailsManager(
-                annaSmithUser,
-                lindaUser,
-                tomUser
-        );
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProvider());
     }
 
+   @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+       DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+       //this line allows passwords to be decoded
+       provider.setPasswordEncoder(passwordEncoder);
+       // we set the userDetailsService parameter with ApplicationUserService that we created
+       provider.setUserDetailsService(applicationUserService);
 
-    public static void main(String[] args) {
-        System.out.println(TimeUnit.DAYS.toSeconds(1));
-    }
+       return provider;
+   }
 
 }
