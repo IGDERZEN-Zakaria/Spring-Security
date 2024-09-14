@@ -4,25 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c9245a3-a5e0-4105-921b-85f045aa3d79" name="Changes" comment="Adding Database Authentication +&#10;Adding ApplicationUser +&#10;Adding ApplicationUserDetails ro replace UserDetailsService +&#10;Configuration of new Authentication Provider">
-      <change afterPath="$PROJECT_DIR$/images/jwt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/jwt2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/jwt3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/jwt4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/jwt5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/jwt6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/jwt7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/jwt8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/jwt9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zack/jwt/JwtTokenVerifier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zack/jwt/JwtUsernameAndPasswordAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zack/jwt/UsernameAndPasswordAuthenticationRequest.java" afterDir="false" />
+    <list default="true" id="2c9245a3-a5e0-4105-921b-85f045aa3d79" name="Changes" comment="Adding JWT +&#10;Adding JwtUsernameAndPasswordAuthenticationFilter Filter +&#10;Adding JwtTokenVerifier Filter +&#10;Testing">
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/jwt/JwtConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/zack/jwt/JwtSecretKey.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/zack/auth/ApplicationUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zack/auth/ApplicationUserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/zack/jwt/JwtTokenVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zack/jwt/JwtTokenVerifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/zack/jwt/JwtUsernameAndPasswordAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zack/jwt/JwtUsernameAndPasswordAuthenticationFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationUserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zack/security/ApplicationUserRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +71,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "Spring Boot.SpringSecurityApplication.executor": "Debug",
+    "Spring Boot.SpringSecurityApplication.executor": "Run",
     "git-widget-placeholder": "8-JSON-Web-Tokens",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Zack/Documents/Spring WorkSpace/beyn/back-office/bna-backoffice-source-code/bna-backoffice/backend",
@@ -162,7 +154,7 @@
       <workItem from="1726296593108" duration="2807000" />
       <workItem from="1726299902567" duration="1886000" />
       <workItem from="1726302060380" duration="163000" />
-      <workItem from="1726302441459" duration="10791000" />
+      <workItem from="1726302441459" duration="12399000" />
     </task>
     <task id="LOCAL-00001" summary="Adding Spring Security Dependency">
       <option name="closed" value="true" />
@@ -172,7 +164,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724946608205</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Adding JWT +&#10;Adding JwtUsernameAndPasswordAuthenticationFilter Filter +&#10;Adding JwtTokenVerifier Filter +&#10;Testing">
+      <option name="closed" value="true" />
+      <created>1726318999905</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1726318999905</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,23 +195,10 @@
     <MESSAGE value="Adding Users in Memory with UserDetailsService + PasswordEncoder and Role + Permissions" />
     <MESSAGE value="Adding Database Authentication +&#10;Adding ApplicationUser +&#10;Adding ApplicationUserDetails ro replace UserDetailsService +&#10;Configuration" />
     <MESSAGE value="Adding Database Authentication +&#10;Adding ApplicationUser +&#10;Adding ApplicationUserDetails ro replace UserDetailsService +&#10;Configuration of new Authentication Provider" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding Database Authentication +&#10;Adding ApplicationUser +&#10;Adding ApplicationUserDetails ro replace UserDetailsService +&#10;Configuration of new Authentication Provider" />
+    <MESSAGE value="Adding JWT +&#10;Adding JwtUsernameAndPasswordAuthenticationFilter Filter +&#10;Adding JwtTokenVerifier Filter +&#10;Testing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding JWT +&#10;Adding JwtUsernameAndPasswordAuthenticationFilter Filter +&#10;Adding JwtTokenVerifier Filter +&#10;Testing" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/zack/jwt/JwtUsernameAndPasswordAuthenticationFilter.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/zack/jwt/JwtUsernameAndPasswordAuthenticationFilter.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="org.apache.catalina.connector.Response" memberName="applicationResponse" />

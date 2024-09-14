@@ -834,15 +834,12 @@ String authorizationHeader = request.getHeader("Authorization");
         } catch (JwtException e) {
             throw new IllegalStateException(String.format("Token %s cannot be trusted", token));
         }
-
+        
         filterChain.doFilter(request, response);
-    }
+}
 ```
 
 ![jwt7.png](images%2Fjwt7.png)
-
-
-
 
 testing with Postman 
 
@@ -857,18 +854,47 @@ testing with Postman
 ![jwt9.png](images%2Fjwt9.png)
 
 
+### Refactoring 
 
+### `JWTConfig` Class
 
+in 
 
+```java
+@ConfigurationProperties(prefix = "application.jwt")
+```
 
+We get the values of
+- secretKey  
+- tokenPrefix
+- tokenExpirationAfterDays
 
+from
 
+```yml
+application.jwt.secretKey=securesecuresecuresecuresecuresecuresecuresecuresecuresecuresecure
+application.jwt.tokenPrefix=Bearer 
+application.jwt.tokenExpirationAfterDays=10
+```
 
+### `JWTSecretKey` Class
 
+the most important this in this Configuration class is
 
+```java
+@Bean
+public SecretKey secretKey() {
+    return Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes());
+}
+```
 
+- After this we `inject` both class (`JWTConfig` & `JWTSecretKey`) in `JwtUsernameAndPasswordAuthenticationFilter`
 
+- And After that we also `inject` both class (`JWTConfig` & `JWTSecretKey`) in `JwtTokenVerifier`
 
+- We also need to `inject` both class (`JWTConfig` & `JWTSecretKey`) in `ApplicationSecurityConfig`
+
+- We replicate the necessary changes in everywhere 
 
 
 
