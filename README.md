@@ -619,29 +619,242 @@ setting up the authentication mechanism for our application
 
 ![db1.png](images%2Fdb1.png)
 
+## JSON Web Token
+
+check this uri: **[https://jwt.io](https://jwt.io)**
+
+![jwt.png](images%2Fjwt.png)
+
+All of these apps want to access the authentication server, it will be challenging
+
+to use BasicAuth(not even recommended) or Form-Based Authentication.
+
+because we need to have a common way to access the authentication server we can use <u>**JWT** </u>
+
+### JWT Pros & Cons
+
+![jwt2.png](images%2Fjwt2.png)
+
+### Mecanisme of JWT
+
+![jwt3.png](images%2Fjwt3.png)
+
+### Java JWT Library
+
+check this uri: **[https://github.com/jwtk/jjwt](https://github.com/jwtk/jjwt)**
+
+Adding dependencies to pom.xml file
+
+```xml
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.10.7</version>
+</dependency>
+
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.10.7</version>
+    <scope>runtime</scope>
+</dependency>
+
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>0.10.7</version>
+    <scope>runtime</scope>
+</dependency>
+```
+
+## `JwtUsernameAndPasswordAuthenticationFilter`
+
+- Creating jwt package
+
+- Adding `JwtUsernameAndPasswordAuthenticationFilter` by extending `UsernamePasswordAuthenticationFilter` class
+
+- Adding `UsernameAndPasswordAuthenticationRequest`
+
+- Overriding the `attemptAuthentication` method inside `JwtUsernameAndPasswordAuthenticationFilter` class
+
+- By adding the `AuthenticationManager` to the `JwtUsernameAndPasswordAuthenticationFilter` class we can authenticate the username and password in the method
+
+## `attemptAuthentication`
+
+```java
+  @Override
+  public Authentication attemptAuthentication(HttpServletRequest request,
+  HttpServletResponse response) throws AuthenticationException {
+
+        try {
+            UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper()
+                    .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.getUsername(),
+                    authenticationRequest.getPassword()
+            );
+
+            Authentication authenticate = authenticationManager.authenticate(authentication);
+            return authenticate;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+  }
+```
+
+## `successfulAuthentication`
+
+- Overriding the `successfulAuthentication` method inside `JwtUsernameAndPasswordAuthenticationFilter` class
+
+```java
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request,
+                                            HttpServletResponse response,
+                                            FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
+
+        String key="securesecuresecuresecuresecuresecuresecuresecuresecure";
+
+        // building a JWT that will have the registered claim sub (subject) set to authResult.getName()
+        // and authorities set to authResult.getAuthorities()
+        // A signed JWT is called 'JWS'
+        String token = Jwts.builder()
+                .setSubject(authResult.getName())
+                .claim("authorities", authResult.getAuthorities())
+                .setIssuedAt(new Date())
+                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
+                .signWith(Keys.hmacShaKeyFor(key.getBytes()))
+                .compact();
+
+        response.addHeader("Authorization", "Bearer " + token);
+    }
+```
+
+### Request Filters
+
+- Request Filters are classes that perform some kind of validation for request before reaching 
+the final destination (api)
+
+- the order of these filters is not necessarily guaranteed
+
+![jwt4.png](images%2Fjwt4.png)
+
+
+### Filters and Stateless sessions 
+
+- deleting `.formLogin()` from `ApplicationSecurityConfig`
+
+- Using the `JwtUsernameAndPasswordAuthenticationFilter` that we created
+
+- we can add `authenticationManager()` to the filter because `ApplicationSecurityConfig` extends `WebSecurityConfigurerAdapter`
+
+- JSON Web Token is Stateless so we should use an authentication that is stateless `SessionCreationPolicy.STATELESS`
+
+```java
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()))
+            .authorizeRequests()
+            .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+            .antMatchers("/api/**").hasRole(STUDENT.name())
+            .anyRequest()
+            .authenticated();
+}
+```
+
+### Login with linda
+
+#### Result (Success :+1: Returning the Token in the header as expected)
+
+![jwt5.png](images%2Fjwt5.png)
+
+- copy the token (without Bearer) and paste it in `https://jwt.io/`
+
+- set Algorithm to `HS512`
+
+#### Result ( :+1: )
+
+![jwt6.png](images%2Fjwt6.png)
+
+## `JwtTokenVerifier` 
+
+- Creating the `JwtTokenVerifier` class by overriding `OncePerRequestFilter`
+
+- A signed `JWT` is called a `'JWS'`
+
+- We override `doFilterInternal` method as below 
+
+```java
+protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+String authorizationHeader = request.getHeader("Authorization");
+
+        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String token = authorizationHeader.replace("Bearer ", "");
+
+        String secretKey ="securesecuresecuresecuresecuresecuresecuresecuresecure";
+
+        try {
+
+            Jws<Claims> claimsJws = Jwts.parser()
+                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                    // because we used compacting in building our JWT making it a 'JWS' we need to use 'parseClaimsJws'
+                    .parseClaimsJws(token);
+
+            Claims body = claimsJws.getBody();
+
+            String username = body.getSubject();
+
+            var authorities = (List<Map<String, String>>) body.get("authorities");
+
+            Set<SimpleGrantedAuthority> simpleGrantedAuthorities = authorities.stream()
+                    .map(m -> new SimpleGrantedAuthority(m.get("authority")))
+                    .collect(Collectors.toSet());
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    username,
+                    null,
+                    simpleGrantedAuthorities
+            );
+
+            // this is to tell spring that from this point, this user can be authenticated
+            // here we are setting the authentication to be true
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        } catch (JwtException e) {
+            throw new IllegalStateException(String.format("Token %s cannot be trusted", token));
+        }
+
+        filterChain.doFilter(request, response);
+    }
+```
+
+![jwt7.png](images%2Fjwt7.png)
 
 
 
 
+testing with Postman 
 
+#### Login 
 
+![jwt8.png](images%2Fjwt8.png)
 
+#### testing the Token in the header of our request to getStudents
 
+#### Result ( :+1: )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![jwt9.png](images%2Fjwt9.png)
 
 
 

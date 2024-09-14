@@ -1,5 +1,6 @@
 package zack.security;
 
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +21,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import zack.auth.ApplicationUserService;
+import zack.jwt.JwtTokenVerifier;
+import zack.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 
 import java.util.concurrent.TimeUnit;
 
@@ -42,33 +46,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()))
+                // here we are registering the 'JwtTokenVerifier' Filter after the 'JwtUsernameAndPasswordAuthenticationFilter' Filter
+                .addFilterAfter(new JwtTokenVerifier(),JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/**").hasRole(STUDENT.name())
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .defaultSuccessUrl("/courses", true)
-                    .passwordParameter("password")
-                    .usernameParameter("username")
-                .and()
-                .rememberMe()
-                    //.tokenRepository(); We use this option if we are using our own database like PostgreSQL for example
-                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21))
-                    .key("something-very-secured")  //This Key is used to hash the content and generate the 'md5'
-                    .rememberMeParameter("remember-me")
-                .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    // if csrf is enabled, we should delete this line below
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) // https://docs.spring.io/spring-security/site/docs/4.2.12.RELEASE/apidocs/org/springframework/security/config/annotation/web/configurers/LogoutConfigurer.html
-                    .clearAuthentication(true)
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID", "remember-me")
-                    .logoutSuccessUrl("/login");
+                .authenticated();
 
     }
 
